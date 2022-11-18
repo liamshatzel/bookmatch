@@ -34,6 +34,7 @@ function getRequest(startIndex) {
             console.log("no items found");
         } else {
             const items = data["items"];
+            getMoreBooks(subject, author, title, items);
             if (bookIndex < items.length) {
                 bookIndex++;
             } else {
@@ -44,45 +45,27 @@ function getRequest(startIndex) {
         }
     });
 
-    getMoreBooks(subject, author, title, url);
 }
 
-async function getMoreBooks(subject, author, title, prevURL) {
-    let arr1 = null;
-    let arr2 = null;
-    let arr3 = null;
-    let items = await queryWrapper(prevURL);
-    if (title) {
-        let titleURL = "https://www.googleapis.com/books/v1/volumes?q=" + "intitle:" + title + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
-        arr1 = await queryWrapper(titleURL);
-        console.log(arr1);
-    }
+async function getMoreBooks(subject, author, title, books) {
 
-    if (author) {
-        let authorURL = "https://www.googleapis.com/books/v1/volumes?q=" + "inauthor:" + author + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
-        arr2 = await queryWrapper(authorURL);
-    }
-    if (subject) {
+    let titleURL = "https://www.googleapis.com/books/v1/volumes?q=" + "intitle:" + title + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
+    const arr1 = await queryWrapper(titleURL);
 
-        let subjectURL = "https://www.googleapis.com/books/v1/volumes?q=" + "subject:" + subject + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
-        arr3 = await queryWrapper(subjectURL);
+    let authorURL = "https://www.googleapis.com/books/v1/volumes?q=" + "inauthor:" + author + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
+    const arr2 = await queryWrapper(authorURL);
+
+    let subjectURL = "https://www.googleapis.com/books/v1/volumes?q=" + "subject:" + subject + "&startIndex=" + startIndex + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
+    const arr3 = await queryWrapper(subjectURL);
+
+    let arr1Shuf = shuffle(arr1.items);
+    let arr2Shuf = shuffle(arr2.items);
+    let arr3Shuf = shuffle(arr3.items);
+    let bigBooks = books.concat(arr1Shuf).concat(arr2Shuf).concat(arr3Shuf);
+
+    for (let i = 0; i < bigBooks.length; i++) {
+        outputBook(bigBooks[i]);
     }
-    let bigbooks = shuffle(items);
-    if (arr1) {
-        bigbooks.concat(arr1.items);
-    }
-    if (arr2) {
-        bigbooks.concat(arr2.items);
-    }
-    if (arr3) {
-        bigbooks.concat(arr3.items);
-    }
-    //let bigBooks = shufBooks.concat(arr1.items).concat(arr2.items).concat(arr3.items);
-    //return bigBooks;
-    for (let i = 0; i < bigbooks.length; i++) {
-        outputBook(bigbooks[i]);
-    }
-    console.log(bigbooks);
 }
 
 async function queryWrapper(url) {
@@ -100,6 +83,7 @@ async function queryWrapper(url) {
             console.error(rejection.message);
         }
     );
+    console.log("Hello World");
     return result;
 }
 
@@ -107,6 +91,7 @@ function outputBook(book) {
     let imgLoc = book["volumeInfo"]["imageLinks"];
     var img = null;
     try {
+        console.log("got here");
         img = imgLoc.thumbnail;
         $("#img-holder").append("<img src=" + img + ">")
         bookIndex++;

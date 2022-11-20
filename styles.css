@@ -1,7 +1,8 @@
 body {
     display: flex;
     flex-direction: column;
-    align-content: center;
+    align-items: center;
+    position: relative;
 }
 
 #bookType {
@@ -13,6 +14,84 @@ body {
 #buttons {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    border: 10px solid black;
+    top: 50%;
+    z-index: 2;
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+#book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#img-container {
+    height: 200px;
+}
+
+#info {
+    position: absolute;
+    top: 86%;
+    left: 52.5%;
+}
+
+#book-area {
+    display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+#info {
+    width: 32px;
+    height: 32px;
+}
+
+#description {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+}
+
+#preferences {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    background-color: red;
+}
+
+#matching {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: row;
+    background-color: blue;
 }

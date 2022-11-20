@@ -11,26 +11,39 @@
 
 <body>
     <h1>BookMatch</h1>
-    <div id="book-info"></div>
-    <!-- <button onclick="query()">Dislike</button> -->
-    <form id="bookType">
-        <input type="text" id="subject" placeholder="subject">
-        <input type="text" id="author" placeholder="author">
-        <input type="text" id="title" placeholder="title">
-        <input type="button" value="Find a Match" onclick="buttonClick()">
-    </form>
-    <!-- <button onclick="buttonClick()">Like</button> -->
+    <div id="book-area">
 
-    <div id="text">
-    </div>
+        <div id="preferences">
+            <form id="bookType">
+                <input type="text" id="subject" placeholder="subject">
+                <input type="text" id="author" placeholder="author">
+                <input type="text" id="title" placeholder="title">
+                <input type="button" value="Find a Match" onclick="buttonClick()">
+            </form>
+            <div id="text">
+            </div>
+        </div>
 
-    <div id="book-card">
-        <img id="book-img" src="">
+        <div id="matching">
+            <div id="book-card">
+                <h3 id="book-title"></h3>
+                <div id="img-container">
+                    <img id="book-img" src="">
+                </div>
+                <input type="image" src="resources/info.png" id="info" onclick="infoClick()">
+                <p id="description"></p>
+            </div>
+            <div id="img-holder"></div>
+            <div id="buttons">
+                <button onclick="dislikeBook()">Dislike</button>
+                <button id="like-button" onclick="likeBook()">Like</button>
+            </div>
+        </div>
     </div>
-    <!-- <img alt="book cover"> -->
-    <div id="img-holder"></div>
-    <div id="buttons">
-        <button onclick="dislikeBook()">Dislike</button>
-        <button onclick="likeBook()">Like</button>
-    </div>
+    <section class="modal hidden">
+        <p>Congrats You Matched with:</p>
+        <img id="match-book" src="">
+        <button id="close-modal" onclick="closeModal()">Find a New Book</button>
+    </section>
+    <div class="overlay hidden"></div>
 </body>

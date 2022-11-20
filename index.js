@@ -4,6 +4,10 @@ const authorMap = new Map();
 const titleMap = new Map();
 const subjectMap = new Map();
 
+//TODO: STYLING
+//TODO: 
+
+//source: https://github.com/jbdunne/Erasure/blob/master/index.html
 const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent', 'across',
     'afore',
     'after',
@@ -152,10 +156,7 @@ async function getMoreBooks(subject, author, title, books) {
     if (title) {
         console.log(title);
     }
-
-    //Should be a union rather than an intersection
-    //queries should only be performed if a value is entered otherwise random data comes back in the API response
-    //need to remove entries which dont have any images
+    //need to remove books that have no images
     let titleURL = "https://www.googleapis.com/books/v1/volumes?q=" + "intitle:" + title + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
     const arr1 = await queryWrapper(titleURL);
 
@@ -186,10 +187,19 @@ async function getMoreBooks(subject, author, title, books) {
         bigBooks = bigBooks.concat(arr3Shuf);
     }
 
+    /*remove books without thumbnails*/
+    var i = 0;
+    while (i < bigBooks.length) {
+        let img = bigBooks[i]["volumeInfo"]["imageLinks"];
+        if (img == undefined) {
+            bigBooks.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
+
     bookArray = bigBooks;
     outputBook(bigBooks[0]);
-
-    //outputBook(bigBooks[0]);
     mapBooks();
 }
 
@@ -216,7 +226,7 @@ function mapBooks() {
 
 }
 
-function likeBook() {
+async function likeBook() {
     if (bookArray[bookCount].volumeInfo.authors != undefined) {
         checkCollision(bookArray[bookCount].volumeInfo.authors[0], authorMap);
     }
@@ -236,15 +246,26 @@ function likeBook() {
     }
     bookCount++;
     outputBook(bookArray[bookCount]);
-
-    console.log(mostLiked(subjectMap));
+    mostLikedSubject = mostLiked(subjectMap);
+    if (subjectMap.get(mostLikedSubject) > 5) {
+        await matchFound();
+    }
+    $("#description").html("");
 }
 
 function dislikeBook() {
     bookCount++;
     outputBook(bookArray[bookCount]);
 }
-
+async function matchFound() {
+    console.log("found match");
+    $("#like-button").prop('disabled', true);
+    let subjectURL = "https://www.googleapis.com/books/v1/volumes?q=" + "subject:" + mostLikedSubject + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
+    var matchedBooks = await queryWrapper(subjectURL);
+    const newBooks = shuffle(matchedBooks.items);
+    outputMatch(newBooks[0]);
+    openModal();
+}
 async function queryWrapper(url) {
     const result = await fetch(url, {
         method: 'GET',
@@ -268,6 +289,18 @@ function outputBook(book) {
     try {
         img = imgLoc.thumbnail;
         $("#book-img").attr("src", img);
+        $("#book-title").html(book.volumeInfo.title);
+    } catch {
+        console.log("error");
+    }
+}
+
+function outputMatch(book) {
+    let imgLoc = book["volumeInfo"]["imageLinks"];
+    var img = null;
+    try {
+        img = imgLoc.thumbnail;
+        $("#match-book").attr("src", img);
     } catch {
         console.log("error");
     }
@@ -322,3 +355,25 @@ function checkCollision(key, curMap) {
     }
 
 }
+
+//source inspired by: https://www.freecodecamp.org/news/how-to-build-a-modal-with-javascript/
+function openModal() {
+    const modal = document.querySelector(".modal");
+    const overlay = document.querySelector(".overlay");
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+}
+
+function closeModal() {
+    const modal = document.querySelector(".modal");
+    const overlay = document.querySelector(".overlay");
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+    location.reload();
+}
+
+function infoClick() {
+    $("#description").html(bookArray[bookCount].volumeInfo.description);
+}
+
+

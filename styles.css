@@ -3,6 +3,9 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
+    height: 200%;
+    font-family: Jost;
+    background-color: rgba(219, 190, 161, 1);
 }
 
 #bookType {
@@ -15,6 +18,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    /* margin-top: 40px; */
+    z-index: 10;
+}
+
+#dislike-button {
+    margin-right: 50px;
+}
+
+#like-button {
+    margin-left: 50px;
 }
 
 .modal {
@@ -23,9 +36,13 @@ body {
     position: absolute;
     border: 10px solid black;
     top: 50%;
-    z-index: 2;
+    z-index: 101;
 }
 
+h1 {
+    font-weight: bolder;
+    font-size: 100px;
+}
 
 .overlay {
     position: fixed;
@@ -37,7 +54,7 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(3px);
-    z-index: 1;
+    z-index: 100;
 }
 
 .hidden {
@@ -47,17 +64,27 @@ body {
 #book-card {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 442px;
+    z-index: 10;
+}
+
+#book-card h3 {
+    width: 200px;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    font-weight: bolder;
 }
 
 #img-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
     height: 200px;
-}
-
-#info {
-    position: absolute;
-    top: 86%;
-    left: 52.5%;
 }
 
 #book-area {
@@ -65,33 +92,137 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 2160px;
     flex-direction: column;
 }
 
-
 #info {
+    position: absolute;
     width: 32px;
     height: 32px;
+    left: 55%;
+    top: 78%;
 }
 
 #description {
     display: flex;
     flex-direction: row;
-    width: 30%;
+    width: 200px;
+    height: 400px;
+    /* margin-left: 50px; */
 }
 
 #preferences {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    background-color: red;
+    height: 80%;
+    background-color: rgba(219, 190, 161, 1);
 }
 
 #matching {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
+    height: 100%;
+    background-color: rgba(219, 190, 161, 1);
+}
+
+#book-img {
+    border-radius: 10px;
+}
+
+#spacer {
+    display: flex;
     flex-direction: row;
-    background-color: blue;
+    height: 5%;
+    width: 100%;
+    background-color: rgba(43, 58, 103, 1);
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    width: 100px;
+    height: 100px;
+    padding-right: 30px;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 15px 45px;
+    margin: 10px 0;
+    font-size: 20px;
+    font-family: Jost;
+    text-align: center;
+    border-radius: 10px;
+    border-color: rgba(0, 0, 0, 0.0);
+}
+
+input[type=button] {
+    background-color: rgba(220, 128, 104, 1);
+    font-size: 20px;
+    font-family: Jost;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 40px;
+    text-decoration: none;
+    margin: 20px 2px;
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: rgba(189, 110, 90, 1);
+    font-size: 20px;
+    font-family: Jost;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 40px;
+    text-decoration: none;
+    margin: 20px 2px;
+    cursor: pointer;
+}
+
+#closed-book {
+    position: absolute;
+    /* top: 60%; */
+    /* left: 40%; */
+    width: 320px;
+    height: 442px;
+    z-index: -1;
+}
+
+.choice-button {
+    width: 70px;
+    height: 70px;
+}
+
+#button-space {
+    width: 10%;
+    height: 5%;
+}
+
+input[type=image]:hover {
+    filter: brightness(85%);
+}
+
+#open-book {
+    position: absolute;
+    z-index: -1;
+}
+
+#horiz-space {
+    width: 50px;
 }

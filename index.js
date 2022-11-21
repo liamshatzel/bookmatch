@@ -254,6 +254,7 @@ async function likeBook() {
 }
 
 function dislikeBook() {
+    $("#description").html("");
     bookCount++;
     outputBook(bookArray[bookCount]);
 }
@@ -373,7 +374,10 @@ function closeModal() {
 }
 
 function infoClick() {
-    $("#description").html(bookArray[bookCount].volumeInfo.description);
+    // $("#description").html(bookArray[bookCount].volumeInfo.description);
+
+    $("#img-container").append("<p id='description'>" + bookArray[bookCount].volumeInfo.description + "</p>");
 }
+
 
 

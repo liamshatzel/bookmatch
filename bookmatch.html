@@ -6,37 +6,47 @@
 <head>
     <title>BookMatch</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <script src="index.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost">
+    <script src="index.js" defer></script>
 </head>
 
 <body>
-    <h1>BookMatch</h1>
     <div id="book-area">
-
         <div id="preferences">
+            <div id="header">
+                <img id="logo" src="./resources/bookLogo.png">
+                <h1>BookMatch</h1>
+            </div>
             <form id="bookType">
-                <input type="text" id="subject" placeholder="subject">
-                <input type="text" id="author" placeholder="author">
-                <input type="text" id="title" placeholder="title">
+                <input type="text" id="subject" placeholder="Subject">
+                <input type="text" id="author" placeholder="Author">
+                <input type="text" id="title" placeholder="Title">
                 <input type="button" value="Find a Match" onclick="buttonClick()">
             </form>
             <div id="text">
             </div>
         </div>
-
+        <div id="spacer"></div>
         <div id="matching">
             <div id="book-card">
+                <img id="closed-book" src="./resources/ClosedBook.png">
+                <img id="open-book" src="./resources/OpenBook.png">
+                <input type="image" src="resources/info.png" id="info" onclick="infoClick()">
                 <h3 id="book-title"></h3>
                 <div id="img-container">
                     <img id="book-img" src="">
+                    <!-- <div id="horiz-space"></div> -->
+                    <!-- <p id="description"></p> -->
                 </div>
-                <input type="image" src="resources/info.png" id="info" onclick="infoClick()">
-                <p id="description"></p>
             </div>
-            <div id="img-holder"></div>
+            <div id="button-space"></div>
             <div id="buttons">
-                <button onclick="dislikeBook()">Dislike</button>
-                <button id="like-button" onclick="likeBook()">Like</button>
+                <input class="choice-button" type="image" src="resources/Dislike.png" id="dislike-button"
+                    onclick="dislikeBook()">
+                <input class="choice-button" type="image" src="resources/Like.png" id="like-button"
+                    onclick="likeBook()">
+                <!-- <button id="dislike-button" onclick="dislikeBook()">Dislike</button> -->
+                <!-- <button id="like-button" onclick="likeBook()">Like</button> -->
             </div>
         </div>
     </div>

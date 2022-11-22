@@ -209,6 +209,7 @@ async function matchFound() {
     outputMatch(newBooks[0]);
     openModal();
 }
+
 async function queryWrapper(url) {
     const result = await fetch(url, {
         method: 'GET',

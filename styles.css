@@ -240,8 +240,6 @@ input[type=image]:hover {
 
 #img-open-book {
     position: absolute;
-    /* top: 60%; */
-    /* left: 31%; */
     z-index: 0;
     display: none;
     height: 440px;

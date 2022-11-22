@@ -345,3 +345,29 @@ h4 {
     width: 100px;
     display: none;
 }
+
+#reset-button {
+    background-color: rgb(204, 53, 53);
+    font-size: 16px;
+    font-family: Jost;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 5px 20px;
+    text-decoration: none;
+    margin: 20px 2px;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: rgb(123, 17, 17);
+    font-size: 16px;
+    font-family: Jost;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 5px 20px;
+    text-decoration: none;
+    margin: 20px 2px;
+    cursor: pointer;
+}

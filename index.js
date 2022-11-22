@@ -35,6 +35,8 @@ const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent'
     'the'];
 
 let APIKey = "AIzaSyDctVfRehy9hBTh9BkAlZ8k4R66Nj7kJSE";
+
+/*Get user input from the text boxes*/
 function buttonClick() {
     let subject = $("#subject").val();
     let author = $("#author").val();
@@ -46,23 +48,17 @@ function buttonClick() {
         $("#match-button").prop('disabled', true);
         $("#match-button").css("filter", "brightness(50%)");
         $("#loading").show();
-        // attr("src", "./resources/loading.gif")
         getRequest();
     }
 
 }
 
-//give them the match after ~10 swipes (or sooner?)
-//to implement: book viewer card with info button
-//try not to run out of books -> when it does option to reset
 
-//get the volume ID from the API and return it 
-
+/*make the required queries*/
 function getRequest() {
-    //ajax GET request
-    let subject = $("#subject").val();
-    let author = $("#author").val();
-    let title = $("#title").val();
+    let subject = $("#subject").val().split(" ").join("+");
+    let author = $("#author").val().split(" ").join("+");
+    let title = $("#title").val().split(" ").join("+");
     let subjectQ1 = (subject ? "+subject:" + subject : "");
     let authorQ1 = (author ? "+inauthor:" + author : "");
     let titleQ1 = (title ? "+intitle:" + title : "");
@@ -79,17 +75,9 @@ function getRequest() {
 
 }
 
+/*take the union of the queries so that there are more book results*/
 async function getMoreBooks(subject, author, title, books) {
-    if (subject) {
-        console.log(subject);
-    }
-    if (author) {
-        console.log(author);
-    }
-    if (title) {
-        console.log(title);
-    }
-    //need to remove books that have no images
+
     let titleURL = "https://www.googleapis.com/books/v1/volumes?q=" + "intitle:" + title + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
     const arr1 = await queryWrapper(titleURL);
 
@@ -132,11 +120,13 @@ async function getMoreBooks(subject, author, title, books) {
     }
 
     bookArray = bigBooks;
+    console.log(bookArray);
     $("#loading").hide();
     outputBook(bigBooks[0]);
     mapBooks();
 }
 
+/*Map certain properties of the books into hash maps and count collisions*/
 function mapBooks() {
     for (let i = 0; i < bookArray.length; i++) {
         if (bookArray[i].volumeInfo.authors != undefined) {
@@ -160,6 +150,7 @@ function mapBooks() {
 
 }
 
+/*Like the book, so that the values are hashed*/
 async function likeBook() {
     if (bookArray[bookCount].volumeInfo.authors != undefined) {
         checkCollision(bookArray[bookCount].volumeInfo.authors[0], authorMap);
@@ -187,6 +178,7 @@ async function likeBook() {
     $("#description").html("");
 }
 
+/*Dislike and increment to the next book*/
 async function dislikeBook() {
     $("#description").html("");
     bookCount++;
@@ -195,6 +187,8 @@ async function dislikeBook() {
     }
     outputBook(bookArray[bookCount]);
 }
+
+/*Make a new query and choose a random book from it*/
 async function matchFound() {
     console.log("found match");
     $("#like-button").prop('disabled', true);
@@ -202,13 +196,15 @@ async function matchFound() {
     $("#dislike-button").prop('disabled', true);
     $("#dislike-button").css("filter", "brightness(50%)");
 
-    var mostLikedSubject = mostLiked(subjectMap)
+    var mostLikedSubject = mostLiked(subjectMap).split(" ")[0];
     if (mostLikedSubject == undefined) {
         mostLikedSubject = "Science";
     }
     console.log(mostLikedSubject);
     let subjectURL = "https://www.googleapis.com/books/v1/volumes?q=" + "subject:" + mostLikedSubject + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
+    console.log(subjectURL);
     var matchedBooks = await queryWrapper(subjectURL);
+    console.log(matchedBooks);
     const newBooks = shuffle(matchedBooks.items);
     outputMatch(newBooks[0]);
     openModal();
@@ -265,20 +261,11 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-//source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+/*Fisher Yates Shuffle*/
 function shuffle(array) {
-    let currentIndex = array.length, randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex != 0) {
-
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
+    for (let i = 0; i < array.length - 2; i++) {
+        j = Math.floor(Math.random() * i);
+        [array[i], array[j]] = [array[j], array[i]];
     }
 
     return array;
@@ -311,7 +298,6 @@ function checkCollision(key, curMap) {
 
 }
 
-//source inspired by: https://www.freecodecamp.org/news/how-to-build-a-modal-with-javascript/
 function openModal() {
     const modal = document.querySelector(".modal");
     const overlay = document.querySelector(".overlay");

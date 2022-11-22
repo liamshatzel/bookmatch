@@ -4,23 +4,10 @@ const authorMap = new Map();
 const titleMap = new Map();
 const subjectMap = new Map();
 
-//TODO: STYLING
-//TODO: 
+//TOOD: Change subject to dropdown?
 
-//source: https://github.com/jbdunne/Erasure/blob/master/index.html
+//filter word source: https://github.com/jbdunne/Erasure/blob/master/index.html
 const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent', 'across',
-    'afore',
-    'after',
-    'against',
-    'along',
-    'alongside',
-    'amid',
-    'amidst',
-    'among',
-    'amongst',
-    'an',
-    'anenst',
-    'apropos',
     'apud',
     'around',
     'as',
@@ -35,27 +22,6 @@ const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent'
     'below',
     'beneath',
     'beside',
-    'besides',
-    'between',
-    'beyond',
-    'but',
-    'by',
-    'chez',
-    'circa',
-    'concerning',
-    'despite',
-    'down',
-    'during',
-    'except',
-    'excluding',
-    'failing',
-    'following',
-    'for',
-    'forenenst',
-    'from',
-    'given',
-    'how',
-    'in',
     'including',
     'inside',
     'into',
@@ -63,65 +29,32 @@ const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent'
     'mid',
     'midst',
     'minus',
-    'modulo',
-    'near',
-    'next',
-    'notwithstanding',
-    'of',
-    'off',
-    'on',
-    'onto',
-    'opposite',
-    'out',
-    'outside',
-    'over',
-    'pace',
-    'past',
-    'per',
-    'plus',
-    'pro',
-    'qua',
-    'regarding',
-    'round',
-    'sans',
     'save',
     'since',
     'than',
-    'the',
-    'through, thru (informal)',
-    'throughout',
-    'till',
-    'times',
-    'to',
-    'toward',
-    'towards',
-    'under',
-    'underneath',
-    'unlike',
-    'until',
-    'unto',
-    'up',
-    'upon',
-    'versus',
-    'via',
-    'vice',
-    'with',
-    'within',
-    'without', 'worth'];
+    'the'];
 
 let APIKey = "AIzaSyDctVfRehy9hBTh9BkAlZ8k4R66Nj7kJSE";
 function buttonClick() {
-    getRequest();
+    let subject = $("#subject").val();
+    let author = $("#author").val();
+    let title = $("#title").val();
+    if (!(subject || author || title)) {
+        $("#error-text").html("Please enter some input");
+    } else {
+        $("#like-button").focus();
+        $("#match-button").prop('disabled', true);
+        $("#match-button").css("filter", "brightness(50%)");
+        $("#loading").show();
+        // attr("src", "./resources/loading.gif")
+        getRequest();
+    }
+
 }
-//want to make a seperate query for each input value to get more book matches
-//first query is using all 3
-//second query uses title first
-//third query uses author
-//final query uses subject
-//shuffle each value and put them all into a new array
-//iterate through array until match found (somehow)
+
 //give them the match after ~10 swipes (or sooner?)
 //to implement: book viewer card with info button
+//try not to run out of books -> when it does option to reset
 
 //get the volume ID from the API and return it 
 
@@ -199,6 +132,7 @@ async function getMoreBooks(subject, author, title, books) {
     }
 
     bookArray = bigBooks;
+    $("#loading").hide();
     outputBook(bigBooks[0]);
     mapBooks();
 }
@@ -247,20 +181,32 @@ async function likeBook() {
     bookCount++;
     outputBook(bookArray[bookCount]);
     mostLikedSubject = mostLiked(subjectMap);
-    if (subjectMap.get(mostLikedSubject) > 5) {
+    if (subjectMap.get(mostLikedSubject) > 5 || bookCount >= 50) {
         await matchFound();
     }
     $("#description").html("");
 }
 
-function dislikeBook() {
+async function dislikeBook() {
     $("#description").html("");
     bookCount++;
+    if (bookCount >= 25) {
+        await matchFound();
+    }
     outputBook(bookArray[bookCount]);
 }
 async function matchFound() {
     console.log("found match");
     $("#like-button").prop('disabled', true);
+    $("#like-button").css("filter", "brightness(50%)");
+    $("#dislike-button").prop('disabled', true);
+    $("#dislike-button").css("filter", "brightness(50%)");
+
+    var mostLikedSubject = mostLiked(subjectMap)
+    if (mostLikedSubject == undefined) {
+        mostLikedSubject = "Science";
+    }
+    console.log(mostLikedSubject);
     let subjectURL = "https://www.googleapis.com/books/v1/volumes?q=" + "subject:" + mostLikedSubject + "&maxResults=40&printType=books&projection=full&key=" + APIKey;
     var matchedBooks = await queryWrapper(subjectURL);
     const newBooks = shuffle(matchedBooks.items);
@@ -285,6 +231,11 @@ async function queryWrapper(url) {
 
 
 function outputBook(book) {
+    if (bookCount > bookArray.length) {
+        $("#book-title").html("Out of Books :/");
+        $("#img-container").clear();
+
+    }
     let imgLoc = book["volumeInfo"]["imageLinks"];
     var img = null;
     try {
@@ -302,8 +253,11 @@ function outputMatch(book) {
     try {
         img = imgLoc.thumbnail;
         $("#match-book").attr("src", img);
+        $("#match-book-title").html(book.volumeInfo.title);
+        $("#match-desc").html(book.volumeInfo.description)
     } catch {
         console.log("error");
+        $("#match-book-title").html("Sorry there was a problem.");
     }
 }
 
@@ -363,6 +317,7 @@ function openModal() {
     const overlay = document.querySelector(".overlay");
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
+    $("#close-modal").focus();
 }
 
 function closeModal() {
@@ -374,10 +329,18 @@ function closeModal() {
 }
 
 function infoClick() {
-    // $("#description").html(bookArray[bookCount].volumeInfo.description);
-
-    $("#img-container").append("<p id='description'>" + bookArray[bookCount].volumeInfo.description + "</p>");
+    $("#book-description").html(bookArray[bookCount].volumeInfo.description);
+    $("#book-card").hide();
+    $("#img-open-book").show();
+    $("#book-card-open").css("display", "flex");
+    $("#like-button").hide();
+    $("#dislike-button").hide();
 }
 
-
-
+function closeBook() {
+    $("#img-open-book").hide();
+    $("#book-card-open").css("display", "none");
+    $("#book-card").show();
+    $("#like-button").show();
+    $("#dislike-button").show();
+}

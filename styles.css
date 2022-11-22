@@ -18,7 +18,6 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* margin-top: 40px; */
     z-index: 10;
 }
 
@@ -34,10 +33,19 @@ body {
     display: flex;
     flex-direction: column;
     position: absolute;
-    border: 10px solid black;
     top: 50%;
     z-index: 101;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bolder;
+    font-size: 24px;
 }
+
+#match-book {
+    border-radius: 10px;
+}
+
 
 h1 {
     font-weight: bolder;
@@ -76,6 +84,7 @@ h1 {
     font-size: 25px;
     color: white;
     font-weight: bolder;
+    overflow: scroll;
 }
 
 #img-container {
@@ -85,6 +94,7 @@ h1 {
     align-items: center;
     margin-top: 30px;
     height: 200px;
+    width: 50%;
 }
 
 #book-area {
@@ -107,7 +117,7 @@ h1 {
 #description {
     display: flex;
     flex-direction: row;
-    width: 200px;
+    width: 500px;
     height: 400px;
     /* margin-left: 50px; */
 }
@@ -219,10 +229,119 @@ input[type=image]:hover {
 }
 
 #open-book {
-    position: absolute;
-    z-index: -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #horiz-space {
     width: 50px;
+}
+
+#img-open-book {
+    position: absolute;
+    /* top: 60%; */
+    /* left: 31%; */
+    z-index: 0;
+    display: none;
+    height: 440px;
+    width: auto;
+}
+
+#book-card-open {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 500px;
+}
+
+#book-description {
+    z-index: 100;
+    column-count: 2;
+    column-width: 30%;
+    column-gap: 20%;
+    height: 400px;
+    width: 550px;
+    overflow: scroll;
+}
+
+#open-book h3 {
+    display: flex;
+    z-index: 101;
+    flex-direction: row;
+}
+
+#close-button {
+    z-index: 102;
+    padding-top: 5%;
+    height: 30px;
+    width: 30px;
+    filter: brightness(50%);
+}
+
+h4 {
+    color: red;
+}
+
+#match-desc {
+    width: 70%;
+}
+
+#close-modal {
+    background-color: rgba(220, 128, 104, 1);
+    font-size: 20px;
+    font-family: Jost;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 40px;
+    text-decoration: none;
+    margin: 20px 2px;
+    cursor: pointer;
+}
+
+#close-modal:hover {
+    filter: brightness(50%);
+}
+
+#about {
+    color: rgba(189, 110, 90, 1);
+    font-size: 20px;
+}
+
+#about:visited {
+    color: rgba(189, 110, 90, 1);
+    font-size: 20px;
+}
+
+#about:hover {
+    color: rgba(189, 110, 90, 1);
+    font-size: 20px;
+    filter: brightness(150%);
+}
+
+
+
+#page2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 90%;
+    height: 100%;
+}
+
+#back-button {
+    font-size: 32px;
+}
+
+#page2 li {
+    font-size: 24px;
+}
+
+#loading {
+    height: 100px;
+    width: 100px;
+    display: none;
 }

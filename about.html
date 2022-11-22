@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>About</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost">
+</head>
+
+<body>
+    <a id="back-button" href="bookmatch.html">Back</a>
+    <div id="page2">
+        <h2>How To:</h2>
+        <ul>
+            <li>Enter your favorite, author, subject, or book title (or mix and match any of those three).</li>
+            <li>Click find match and like or dislike the books shown (if you've read them great, if not try to judge
+                based on the cover and description).</li>
+            <li>To see the description of a book click the info button in the bottom right corner.</li>
+            <li>After a certain number of likes and dislikes you will be matched with a book based on your preferences.
+            </li>
+        </ul>
+        <h2>About:</h2>
+        <ul>
+            <li>The books are pulled from the Google Books API.</li>
+            <li>To accomodate for the union of inputs rather than taking an intersection, each input the user enters
+                into the text boxes are performed as a query seperately. </li>
+            <li>Another more specific query of the
+                intersection of all three inputs is performed for more precise results. All of these results are then
+                aggregated.</li>
+            <li>In order to find matches, information about the books are hashed into specific hash maps and collisions
+                are counted based on likes.</li>
+            <li>Taking these properties it performs a new query and matches the user with a random book from the new
+                query list.</li>
+        </ul>
+    </div>
+</body>

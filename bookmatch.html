@@ -17,12 +17,14 @@
                 <img id="logo" src="./resources/bookLogo.png">
                 <h1>BookMatch</h1>
             </div>
+            <h4 id="error-text"></h4>
             <form id="bookType">
                 <input type="text" id="subject" placeholder="Subject">
                 <input type="text" id="author" placeholder="Author">
                 <input type="text" id="title" placeholder="Title">
-                <input type="button" value="Find a Match" onclick="buttonClick()">
+                <input id="match-button" type="button" value="Find a Match" onclick="buttonClick()">
             </form>
+            <a id="about" href="./about.html">About/How To</a>
             <div id="text">
             </div>
         </div>
@@ -30,13 +32,20 @@
         <div id="matching">
             <div id="book-card">
                 <img id="closed-book" src="./resources/ClosedBook.png">
-                <img id="open-book" src="./resources/OpenBook.png">
                 <input type="image" src="resources/info.png" id="info" onclick="infoClick()">
                 <h3 id="book-title"></h3>
                 <div id="img-container">
+                    <img id="loading" src="resources/loading.gif">
                     <img id="book-img" src="">
-                    <!-- <div id="horiz-space"></div> -->
+                    <div id="horiz-space"></div>
                     <!-- <p id="description"></p> -->
+                </div>
+            </div>
+            <div id="book-card-open">
+                <div id="open-book">
+                    <p id="book-description"></p>
+                    <img id="img-open-book" src="./resources/OpenBook.png">
+                    <input type="image" src="resources/close.png" id="close-button" onclick="closeBook()">
                 </div>
             </div>
             <div id="button-space"></div>
@@ -45,14 +54,14 @@
                     onclick="dislikeBook()">
                 <input class="choice-button" type="image" src="resources/Like.png" id="like-button"
                     onclick="likeBook()">
-                <!-- <button id="dislike-button" onclick="dislikeBook()">Dislike</button> -->
-                <!-- <button id="like-button" onclick="likeBook()">Like</button> -->
             </div>
         </div>
     </div>
     <section class="modal hidden">
         <p>Congrats You Matched with:</p>
+        <h3 id="match-book-title"></h3>
         <img id="match-book" src="">
+        <p id="match-desc"></p>
         <button id="close-modal" onclick="closeModal()">Find a New Book</button>
     </section>
     <div class="overlay hidden"></div>

@@ -84,7 +84,7 @@ h1 {
     font-size: 25px;
     color: white;
     font-weight: bolder;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 #img-container {
@@ -368,4 +368,21 @@ h4 {
     text-decoration: none;
     margin: 20px 2px;
     cursor: pointer;
+}
+
+#subject {
+    width: 123%;
+    padding: 13px 45px;
+    margin: 10px 0;
+    font-size: 20px;
+    font-family: Jost;
+    text-align: center;
+    border-radius: 10px;
+    color: grey;
+    border-color: rgba(0, 0, 0, 0.0);
+}
+
+#subject-label {
+    font-size: 32px;
+    color: grey;
 }

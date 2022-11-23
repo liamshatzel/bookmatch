@@ -41,7 +41,7 @@ function buttonClick() {
     let subject = $("#subject").val();
     let author = $("#author").val();
     let title = $("#title").val();
-    if (!(subject || author || title)) {
+    if (!((subject != "None") || author || title)) {
         $("#error-text").html("Please enter some input");
     } else {
         $("#like-button").focus();
@@ -68,6 +68,7 @@ function getRequest() {
     $.get(url, function (data) {
         if (data["totalItems"] == 0) {
             console.log("no items found");
+            $("#book-title").html("No Books Found.");
         }
         const items = data["items"];
         getMoreBooks(subject, author, title, items);
@@ -97,7 +98,7 @@ async function getMoreBooks(subject, author, title, books) {
         bigBooks = bigBooks.concat(books);
         console.log(books);
     }
-    if (subject) {
+    if (subject != "None") {
         bigBooks = bigBooks.concat(arr1Shuf);
     }
     if (author) {
@@ -205,7 +206,16 @@ async function matchFound() {
     console.log(subjectURL);
     var matchedBooks = await queryWrapper(subjectURL);
     console.log(matchedBooks);
-    const newBooks = shuffle(matchedBooks.items);
+    var newBooks = shuffle(matchedBooks.items);
+    var i = 0;
+    while (i < newBooks.length) {
+        let img = newBooks[i]["volumeInfo"]["imageLinks"];
+        if (img == undefined) {
+            newBooks.splice(i, 1);
+        } else {
+            i++;
+        }
+    }
     outputMatch(newBooks[0]);
     openModal();
 }

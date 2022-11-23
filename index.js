@@ -59,7 +59,7 @@ function getRequest() {
     let subject = $("#subject").val().split(" ").join("+");
     let author = $("#author").val().split(" ").join("+");
     let title = $("#title").val().split(" ").join("+");
-    let subjectQ1 = (subject ? "+subject:" + subject : "");
+    let subjectQ1 = ((subject != "None") ? "+subject:" + subject : "");
     let authorQ1 = (author ? "+inauthor:" + author : "");
     let titleQ1 = (title ? "+intitle:" + title : "");
 
@@ -274,11 +274,14 @@ function getRandomInt(max) {
 
 /*Fisher Yates Shuffle*/
 function shuffle(array) {
-    for (let i = 0; i < array.length - 2; i++) {
-        j = Math.floor(Math.random() * i);
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+    if (array) {
+        for (let i = 0; i < array.length - 2; i++) {
+            j = Math.floor(Math.random() * i);
+            [array[i], array[j]] = [array[j], array[i]];
+        }
 
+
+    }
     return array;
 }
 

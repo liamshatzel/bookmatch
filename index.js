@@ -34,7 +34,7 @@ const filterWords = ['a', 'abaft', 'abeam', 'aboard', 'about', 'above', 'absent'
     'than',
     'the'];
 
-let APIKey = "AIzaSyDctVfRehy9hBTh9BkAlZ8k4R66Nj7kJSE";
+let APIKey = "nicetryhackers";
 
 /*Get user input from the text boxes*/
 function buttonClick() {

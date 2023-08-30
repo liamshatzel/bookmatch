@@ -1,5 +1,6 @@
 # bookmatch
 Simple website to help you match with your next book to read.
+
 About:
 -  The books are pulled from the Google Books API.
 -  To accomodate for the union of user inputs rather than taking an intersection, each input the user enters into the text boxes are as seperate API queries.
